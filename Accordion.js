@@ -19,16 +19,16 @@ export default class Accordion extends Component {
     initiallyActiveSection: PropTypes.number,
     activeSection: PropTypes.oneOfType([
       PropTypes.bool, // if false, closes all sections
-      PropTypes.number, // sets index of section to open
+      PropTypes.number // sets index of section to open
     ]),
     underlayColor: PropTypes.string,
     touchableComponent: PropTypes.func,
-    touchableProps: PropTypes.object,
+    touchableProps: PropTypes.object
   };
 
   static defaultProps = {
     underlayColor: 'black',
-    touchableComponent: TouchableHighlight,
+    touchableComponent: TouchableHighlight
   };
 
   constructor(props) {
@@ -39,14 +39,16 @@ export default class Accordion extends Component {
       activeSection:
         props.activeSection !== undefined
           ? props.activeSection
-          : props.initiallyActiveSection,
+          : props.initiallyActiveSection
     };
   }
+
+  componentWillUnmount() {}
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.activeSection !== undefined) {
       this.setState({
-        activeSection: nextProps.activeSection,
+        activeSection: nextProps.activeSection
       });
     }
   }
@@ -78,7 +80,7 @@ export default class Accordion extends Component {
 
     return (
       <View {...viewProps}>
-        {this.props.sections.map((section, key) =>
+        {this.props.sections.map((section, key) => (
           <View key={key}>
             <Touchable
               onPress={() => this._toggleSection(key)}
@@ -92,6 +94,7 @@ export default class Accordion extends Component {
               )}
             </Touchable>
             <Collapsible
+              parent={this.props.parent}
               collapsed={this.state.activeSection !== key}
               {...collapsibleProps}
             >
@@ -102,7 +105,7 @@ export default class Accordion extends Component {
               )}
             </Collapsible>
           </View>
-        )}
+        ))}
       </View>
     );
   }
