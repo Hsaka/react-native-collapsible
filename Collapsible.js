@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Animated, Easing, TouchableWithoutFeedback } from 'react-native';
+import { Animated, Easing } from 'react-native';
 import { ViewPropTypes } from './config';
 
 const ANIMATED_EASING_PREFIXES = ['easeInOut', 'easeOut', 'easeIn'];
@@ -32,13 +32,19 @@ export default class Collapsible extends Component {
       height: new Animated.Value(props.collapsedHeight),
       contentHeight: 0,
       contentY: 0,
+      selfClosed: false,
       animating: false
     };
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.collapsed !== this.props.collapsed) {
-      this._toggleCollapsed(nextProps.collapsed);
+      this._toggleCollapsed(
+        nextProps.collapsed,
+        nextProps.selfClosed,
+        nextProps.index,
+        nextProps.activeIndex
+      );
     } else if (
       nextProps.collapsed &&
       nextProps.collapsedHeight !== this.props.collapsedHeight
@@ -87,10 +93,17 @@ export default class Collapsible extends Component {
     );
   }
 
-  _toggleCollapsed(collapsed) {
+  _toggleCollapsed(collapsed, selfClosed, index, activeIndex) {
     if (collapsed) {
       //this._transitionToHeight(this.props.collapsedHeight);
+
+      // console.log(this.props.parent._scrollview._ypos);
+      // console.log(this.state.contentHeight);
+      // console.log(this.state.contentY);
+
       if (
+        !selfClosed &&
+        activeIndex >= index &&
         this.props.parent &&
         this.props.parent._scrollview &&
         this.props.parent._scrollview._ypos - this.state.contentHeight > 0
