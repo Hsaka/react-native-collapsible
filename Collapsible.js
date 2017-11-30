@@ -97,20 +97,22 @@ export default class Collapsible extends Component {
     if (collapsed) {
       //this._transitionToHeight(this.props.collapsedHeight);
 
-      // console.log(this.props.parent._scrollview._ypos);
-      // console.log(this.state.contentHeight);
-      // console.log(this.state.contentY);
+      console.log(
+        this.props.parent._scrollview._ypos - this.state.contentHeight
+      );
 
       if (
         !selfClosed &&
         activeIndex >= index &&
         this.props.parent &&
-        this.props.parent._scrollview &&
-        this.props.parent._scrollview._ypos - this.state.contentHeight > 0
+        this.props.parent._scrollview
+        //this.props.parent._scrollview._ypos - this.state.contentHeight > 0
       ) {
         this.props.parent._scrollview.scrollToPosition(
           0,
-          this.props.parent._scrollview._ypos - this.state.contentHeight,
+          Math.abs(
+            this.props.parent._scrollview._ypos - this.state.contentHeight
+          ),
           false
         );
       }
