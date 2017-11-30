@@ -96,6 +96,9 @@ export default class Accordion extends Component {
             <Collapsible
               parent={this.props.parent}
               collapsed={this.state.activeSection !== key}
+              selfClosed={this.state.activeSection === false}
+              index={key}
+              activeIndex={this.state.activeSection}
               {...collapsibleProps}
             >
               {this.props.renderContent(
