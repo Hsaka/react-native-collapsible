@@ -45,7 +45,7 @@ export default class Accordion extends Component {
 
   componentWillUnmount() {}
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.activeSection !== undefined) {
       this.setState({
         activeSection: nextProps.activeSection
